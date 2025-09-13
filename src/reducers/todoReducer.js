@@ -14,6 +14,8 @@ export const todoReducer = (state, action) => {
         }
         return todo;
       });
+    case "ADD":
+      return [...state, { id: action.id, text: action.text, done: false }];
     default:
       return state;
   }
