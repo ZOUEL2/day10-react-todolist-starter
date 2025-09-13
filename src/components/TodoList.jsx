@@ -10,6 +10,10 @@ const TodoList = () => {
     dispatch({ type: "DONE", id: id });
   }
 
+  function deleteTodo(id) {
+    dispatch({ type: "DELETE", id: id });
+  }
+
   function addTodo() {
     if (newTodoText.trim()) {
       const newId = Math.max(...state.map(todo => todo.id), 0) + 1;
@@ -53,9 +57,19 @@ const TodoList = () => {
           <div
             key={id}
             className={`todo-item ${done ? "done" : ""}`}
-            onClick={() => toggleDone(id)}
           >
-            {text}
+            <span onClick={() => toggleDone(id)} className="todo-text">
+              {text}
+            </span>
+            <button 
+              className="delete-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                deleteTodo(id);
+              }}
+            >
+              ×
+            </button>
           </div>
         );
       })}
