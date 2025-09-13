@@ -38,7 +38,12 @@ const TodoList = () => {
 
   return (
     <div className={"todo-group"}>
-      <div>This is the TodoList Component.</div>
+      <h1>Todo  List</h1>
+      
+      {/* Show message when no todos */}
+      {state.length === 0 && (
+        <p className="empty-message">Add the thing you need to do today...</p>
+      )}
       
       {/* Add new todo input */}
       <div className="add-todo">

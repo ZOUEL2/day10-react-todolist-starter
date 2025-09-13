@@ -13,6 +13,14 @@
   color: #333;
 }
 
+.empty-message {
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
 .add-todo {
   display: flex;
   gap: 10px;
@@ -27,7 +35,7 @@
   padding: 8px 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 24px;
 }
 
 .add-todo input:focus {
