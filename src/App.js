@@ -3,7 +3,13 @@ import "./App.css";
 import TodoList from "./components/TodoList";
 import { initialState, todoReducer } from "./reducers/todoReducer";
 import { TodoContext } from "./contexts/TodoContext";
-import { NavLink, Outlet, RouterProvider, createBrowserRouter, useParams} from "react-router";
+import {
+  NavLink,
+  Outlet,
+  RouterProvider,
+  createBrowserRouter,
+  useParams,
+} from "react-router";
 
 function DefaultLayer() {
   return (
@@ -55,7 +61,7 @@ const routes = [
   {
     path: "/",
     element: <DefaultLayer />,
-    errorElement: <ErrorPage/>,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "",
@@ -67,7 +73,7 @@ const routes = [
       },
       {
         path: "todos/:id",
-        element:  <TodoDetail/>,
+        element: <TodoDetail />,
       },
       {
         path: "about",
