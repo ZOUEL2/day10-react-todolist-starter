@@ -3,40 +3,14 @@ import "./App.css";
 import TodoList from "./components/TodoList";
 import { initialState, todoReducer } from "./reducers/todoReducer";
 import { TodoContext } from "./contexts/TodoContext";
+import { DefaultLayer } from "./_layouts/Layout";
 import {
-  NavLink,
-  Outlet,
   RouterProvider,
   createBrowserRouter,
   useParams,
 } from "react-router";
 
-function DefaultLayer() {
-  return (
-    <>
-      <header>
-        <nav>
-          <ul>
-            <li>
-              <NavLink to={"/"}>Home</NavLink>
-            </li>
-            <li>
-              <NavLink to={"/todos"}>TODO List</NavLink>
-            </li>
-            <li>
-              <NavLink to={"/about"}>About</NavLink>
-            </li>
-          </ul>
-        </nav>
-      </header>
-      <main>
-        <h1>XXX</h1>
-        <Outlet></Outlet>
-      </main>
-      <footer>footer @copyright</footer>
-    </>
-  );
-}
+
 
 function ErrorPage() {
   return (
