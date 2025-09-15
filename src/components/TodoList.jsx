@@ -14,12 +14,12 @@ const TodoList = () => {
   return (
     <div className="todo-list">
       <h1 className="todo-title">Todo List</h1>
-      <TodoGenerator />
 
-      {/* Show message when no todos */}
       {todos.length === 0 && (
         <p className="empty-message">Add the thing you need to do today...</p>
       )}
+      
+      <TodoGenerator />
       <TodoGroup />
     </div>
   );

@@ -1,4 +1,4 @@
-import { HomeOutlined, UnorderedListOutlined, InfoCircleOutlined } from "@ant-design/icons";
+import { HomeOutlined, InfoCircleOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { NavLink, Outlet } from "react-router";
 const { Header, Footer, Sider, Content } = Layout;

@@ -1,16 +1,22 @@
-.todo-group {
+.todo-list {
   max-width: 500px;
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
 }
 
-.todo-group > div:first-child {
+.todo-title {
   text-align: center;
-  font-size: 18px;
+  font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
   color: #333;
+}
+
+.todo-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
 .empty-message {
@@ -74,6 +80,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 
 .todo-item:hover {
@@ -91,6 +98,13 @@
 
 .todo-item.done .todo-text {
   text-decoration: line-through;
+  cursor: default;
+}
+
+.todo-item.done .todo-text:hover {
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
 }
 
 .todo-item.done:hover {
@@ -101,6 +115,88 @@
   flex: 1;
   cursor: pointer;
   margin-right: 15px;
+  user-select: text;
+}
+
+.todo-text:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+  border-radius: 3px;
+  padding: 2px 4px;
+  margin: -2px -4px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.edit-btn {
+  width: 24px;
+  height: 24px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+  flex-shrink: 0;
+}
+
+.edit-btn:hover {
+  background-color: #218838;
+}
+
+.edit-inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.edit-input {
+  flex: 1;
+}
+
+.edit-buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.save-btn, .cancel-btn {
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.save-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+.save-btn:hover {
+  background-color: #218838;
+}
+
+.cancel-btn {
+  background-color: #6c757d;
+  color: white;
+}
+
+.cancel-btn:hover {
+  background-color: #5a6268;
 }
 
 .delete-btn {
@@ -126,8 +222,4 @@
 
 .delete-btn:active {
   background-color: #bd2130;
-}
-
-.todo-group {
-    justify-self: center;
 }

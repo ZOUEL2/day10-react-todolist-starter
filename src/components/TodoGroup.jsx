@@ -6,7 +6,7 @@ const TodoGroup = () => {
     const { todos } = useContext(TodoContext);
 
     return (
-        <div className="todo-group">
+        <div className="todo-items">
             {todos.map(todo => (
                 <TodoItem key={todo.id} todo={todo} />
             ))}
