@@ -3,7 +3,7 @@ import "./App.css";
 import TodoList from "./components/TodoList";
 import { initialState, todoReducer } from "./reducers/todoReducer";
 import { TodoContext } from "./contexts/TodoContext";
-import { NavLink, Outlet, RouterProvider, createBrowserRouter} from "react-router";
+import { NavLink, Outlet, RouterProvider, createBrowserRouter, useParams} from "react-router";
 
 function DefaultLayer() {
   return (
@@ -15,7 +15,7 @@ function DefaultLayer() {
               <NavLink to={"/"}>Home</NavLink>
             </li>
             <li>
-              <NavLink to={"/todolist"}>TODO List</NavLink>
+              <NavLink to={"/todos"}>TODO List</NavLink>
             </li>
             <li>
               <NavLink to={"/about"}>About</NavLink>
@@ -41,6 +41,16 @@ function ErrorPage() {
   );
 }
 
+function TodoDetail() {
+  const params = useParams();
+  return (
+    <div>
+      <h1>Todo Detail Page - ID: {params.id}</h1>
+      <p>Details about a specific todo will be shown here.</p>
+    </div>
+  );
+}
+
 const routes = [
   {
     path: "/",
@@ -52,8 +62,12 @@ const routes = [
         element: <h1>Home Page </h1>,
       },
       {
-        path: "todolist",
+        path: "todos",
         element: <TodoList />,
+      },
+      {
+        path: "todos/:id",
+        element:  <TodoDetail/>,
       },
       {
         path: "about",
