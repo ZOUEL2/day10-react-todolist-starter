@@ -1,14 +1,13 @@
-import { useReducer } from "react";
-import "./App.css";
-import TodoList from "./components/TodoList";
-import { initialState, todoReducer } from "./reducers/todoReducer";
-import { TodoContext } from "./contexts/TodoContext";
-import { DefaultLayer } from "./_layouts/Layout";
 import {
   RouterProvider,
   createBrowserRouter,
   useParams,
 } from "react-router";
+import { DefaultLayer } from "./_layouts/Layout";
+import "./App.css";
+import TodoList from "./components/TodoList";
+import { TodoContext } from "./contexts/TodoContext";
+import { useTodoService } from "./hooks/useTodoService";
 
 
 
@@ -59,16 +58,12 @@ const routes = [
 const router = createBrowserRouter(routes);
 
 function App() {
-  // the Hooks API manage component data state
-  const [state, dispatch] = useReducer(todoReducer, initialState);
-
-  const value = { state, dispatch };
+  const todoService = useTodoService();
 
   return (
     <div className="App">
-      <TodoContext.Provider value={value}>
+      <TodoContext.Provider value={todoService}>
         <RouterProvider router={router} />
-        {/* <TodoList/> */}
       </TodoContext.Provider>
     </div>
   );
