@@ -1,6 +1,6 @@
 import { EditOutlined } from '@ant-design/icons';
 import { Input, Modal } from 'antd';
-import { useContext, useState } from 'react';
+import { useContext, useState, useRef, useEffect } from 'react';
 import { TodoContext } from '../contexts/TodoContext';
 
 export const TodoItem = ({ todo }) => {
@@ -8,9 +8,48 @@ export const TodoItem = ({ todo }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editText, setEditText] = useState(todo.text);
     const [modalVisible, setModalVisible] = useState(false);
+    const clickTimeoutRef = useRef(null);
+    
+    // 组件卸载时清理定时器
+    useEffect(() => {
+        return () => {
+            if (clickTimeoutRef.current) {
+                clearTimeout(clickTimeoutRef.current);
+            }
+        };
+    }, []);
     
     const handleToggle = () => {
-        updateTodo(todo.id, { ...todo, done: !todo.done });
+        updateTodo(todo.id, { done: !todo.done });
+    };
+
+    const handleSingleClick = () => {
+        // 清除之前的定时器
+        if (clickTimeoutRef.current) {
+            clearTimeout(clickTimeoutRef.current);
+        }
+        
+        // 设置延迟执行单击，给双击事件留出时间
+        clickTimeoutRef.current = setTimeout(() => {
+            // 只有在非编辑状态下才执行切换
+            if (!isEditing) {
+                handleToggle();
+            }
+        }, 300);
+    };
+
+    const handleDoubleClick = () => {
+        // 立即清除单击的延迟执行
+        if (clickTimeoutRef.current) {
+            clearTimeout(clickTimeoutRef.current);
+            clickTimeoutRef.current = null;
+        }
+        
+        // 只有未完成的任务可以编辑
+        if (!todo.done) {
+            setEditText(todo.text);
+            setIsEditing(true);
+        }
     };
     
     const handleDelete = (e) => {
@@ -24,16 +63,9 @@ export const TodoItem = ({ todo }) => {
         setModalVisible(true);
     };
 
-    const handleDoubleClick = () => {
-        if (!todo.done) { // 只有未完成的任务可以编辑
-            setEditText(todo.text);
-            setIsEditing(true);
-        }
-    };
-
     const handleSaveInline = () => {
         if (editText.trim() && editText.trim() !== todo.text) {
-            updateTodo(todo.id, { ...todo, text: editText.trim() });
+            updateTodo(todo.id, { text: editText.trim() });
         }
         setIsEditing(false);
     };
@@ -45,7 +77,7 @@ export const TodoItem = ({ todo }) => {
 
     const handleSaveModal = () => {
         if (editText.trim() && editText.trim() !== todo.text) {
-            updateTodo(todo.id, { ...todo, text: editText.trim() });
+            updateTodo(todo.id, { text: editText.trim() });
         }
         setModalVisible(false);
     };
@@ -89,7 +121,7 @@ export const TodoItem = ({ todo }) => {
                     <>
                         <span 
                             className="todo-text"
-                            onClick={handleToggle}
+                            onClick={handleSingleClick}
                             onDoubleClick={handleDoubleClick}
                             title="单击切换完成状态，双击编辑"
                         >

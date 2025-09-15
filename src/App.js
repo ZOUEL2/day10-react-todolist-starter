@@ -1,15 +1,10 @@
-import {
-  RouterProvider,
-  createBrowserRouter,
-  useParams,
-} from "react-router";
+import { App as AntApp, ConfigProvider } from "antd";
+import { RouterProvider, createBrowserRouter, useParams } from "react-router";
 import { DefaultLayer } from "./_layouts/Layout";
 import "./App.css";
 import TodoList from "./components/TodoList";
 import { TodoContext } from "./contexts/TodoContext";
 import { useTodoService } from "./hooks/useTodoService";
-
-
 
 function ErrorPage() {
   return (
@@ -61,11 +56,15 @@ function App() {
   const todoService = useTodoService();
 
   return (
-    <div className="App">
-      <TodoContext.Provider value={todoService}>
-        <RouterProvider router={router} />
-      </TodoContext.Provider>
-    </div>
+    <ConfigProvider>
+      <AntApp>
+        <div className="App">
+          <TodoContext.Provider value={todoService}>
+            <RouterProvider router={router} />
+          </TodoContext.Provider>
+        </div>
+      </AntApp>
+    </ConfigProvider>
   );
 }
 
