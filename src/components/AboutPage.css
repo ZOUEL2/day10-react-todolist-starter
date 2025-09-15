@@ -1,0 +1,90 @@
+.about-container {
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #f8f8f8 0%, #e8e8e8 100%);
+    padding: 80px 20px;
+    position: relative;
+    overflow-y: auto;
+    scrollbar-width: none; /* Firefox */
+}
+.about-container::-webkit-scrollbar { display: none; }
+
+.about-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 30% 40%, rgba(44, 44, 44, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 70% 60%, rgba(44, 44, 44, 0.02) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.content-wrapper {
+    position: relative;
+    z-index: 2;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.main-title {
+    animation: titleAppear 1.5s ease-out;
+}
+
+@keyframes titleAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.contributor-icon {
+    animation: iconFloat 0.8s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.contributor-icon-1 {
+    animation-delay: 0.2s;
+}
+
+.contributor-icon-2 {
+    animation-delay: 0.4s;
+}
+
+@keyframes iconFloat {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.contributor-icon:hover .icon-wrapper {
+    transform: scale(1.1);
+    background: rgba(44, 44, 44, 0.1) !important;
+    box-shadow: 0 8px 25px rgba(44, 44, 44, 0.15);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .about-container {
+        padding: 60px 15px;
+    }
+    
+    .main-title {
+        font-size: 2.5rem !important;
+        letter-spacing: 4px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-title {
+        font-size: 2rem !important;
+        letter-spacing: 2px !important;
+    }
+}

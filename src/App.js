@@ -3,6 +3,8 @@ import { RouterProvider, createBrowserRouter, useParams } from "react-router";
 import { DefaultLayer } from "./_layouts/Layout";
 import "./App.css";
 import TodoList from "./components/TodoList";
+import HomePage from "./components/HomePage";
+import AboutPage from "./components/AboutPage";
 import { TodoContext } from "./contexts/TodoContext";
 import { useTodoService } from "./hooks/useTodoService";
 
@@ -33,7 +35,7 @@ const routes = [
     children: [
       {
         path: "",
-        element: <h1>Home Page </h1>,
+        element: <HomePage />,
       },
       {
         path: "todos",
@@ -45,7 +47,7 @@ const routes = [
       },
       {
         path: "about",
-        element: <h1>About Us </h1>,
+        element: <AboutPage />,
       },
     ],
   },

@@ -1,0 +1,172 @@
+/* HomePage.css - 墨色中国风 */
+.home-container {
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #f8f8f8 0%, #e8e8e8 100%);
+    padding: 20px;
+    position: relative;
+}
+
+.home-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(44, 44, 44, 0.02) 0%, transparent 60%),
+        radial-gradient(circle at 80% 70%, rgba(44, 44, 44, 0.02) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.content-center {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.poetry-container {
+    margin: 60px 0;
+    position: relative;
+}
+
+.poetry-line {
+    margin: 20px 0;
+    position: relative;
+    animation: poetryAppear 1.5s ease-out;
+}
+
+.first-line {
+    animation-delay: 0.3s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+}
+
+.second-line {
+    animation-delay: 0.8s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+    margin-left: 60px;
+}
+
+@keyframes poetryAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.brush-text {
+    position: relative;
+}
+
+.brush-text::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(to right, transparent 0%, rgba(44, 44, 44, 0.3) 20%, rgba(44, 44, 44, 0.3) 80%, transparent 100%);
+    animation: inkFlow 2s ease-out 1.5s;
+    transform: scaleX(0);
+    transform-origin: left;
+}
+
+.first-line .brush-text::after {
+    animation-delay: 1.8s;
+}
+
+.second-line .brush-text::after {
+    animation-delay: 2.3s;
+}
+
+@keyframes inkFlow {
+    to {
+        transform: scaleX(1);
+    }
+}
+
+.journey-button {
+    position: relative;
+    animation: buttonAppear 1s ease-out 2.5s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+    transition: all 0.3s ease;
+}
+
+.journey-button:hover {
+    transform: translateY(-2px);
+    text-shadow: 0 2px 8px rgba(44, 44, 44, 0.3);
+}
+
+.journey-button::before {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: #2c2c2c;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.journey-button:hover::before {
+    width: 100%;
+}
+
+@keyframes buttonAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .poetry-container {
+        margin: 40px 0;
+    }
+    
+    .brush-text {
+        font-size: 2.2rem !important;
+        letter-spacing: 3px !important;
+    }
+    
+    .second-line {
+        margin-left: 30px !important;
+    }
+    
+    .journey-button {
+        font-size: 18px !important;
+        letter-spacing: 2px !important;
+        height: 50px !important;
+        padding: 0 30px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .brush-text {
+        font-size: 1.8rem !important;
+        letter-spacing: 2px !important;
+    }
+    
+    .second-line {
+        margin-left: 20px !important;
+    }
+    
+    .journey-button {
+        font-size: 16px !important;
+        height: 45px !important;
+        padding: 0 25px !important;
+    }
+}

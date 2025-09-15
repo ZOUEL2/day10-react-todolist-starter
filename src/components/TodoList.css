@@ -1,40 +1,81 @@
+/* TodoList.css - 墨色中国风 */
 .todo-container {
   padding: 24px;
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(to bottom, #f8f8f8 0%, #e8e8e8 100%);
+  position: relative;
+}
+
+.todo-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(44, 44, 44, 0.03) 0%, transparent 60%),
+    radial-gradient(circle at 75% 75%, rgba(44, 44, 44, 0.02) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.todo-container > * {
+  position: relative;
+  z-index: 2;
 }
 
 .todo-item-card.done {
-  opacity: 0.7;
+  opacity: 0.6;
+  background: rgba(44, 44, 44, 0.05) !important;
 }
 
 .todo-text-hover:hover {
-  background-color: rgba(24, 144, 255, 0.1) !important;
+  background-color: rgba(44, 44, 44, 0.1) !important;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(44, 44, 44, 0.15);
 }
 
 .ant-card {
   border-radius: 12px !important;
+  border: 1px solid rgba(44, 44, 44, 0.1) !important;
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(44, 44, 44, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+  transition: all 0.3s ease !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+.ant-card:hover {
+  border-color: rgba(44, 44, 44, 0.2) !important;
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.12),
+    0 0 0 1px rgba(44, 44, 44, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+  transform: translateY(-2px);
 }
 
 .ant-card-small > .ant-card-body {
   padding: 12px 16px;
 }
 
-/* 自定义滚动条样式 */
+/* 自定义滚动条样式 - 墨色主题 */
 .todo-items::-webkit-scrollbar {
   width: 6px;
 }
 
 .todo-items::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: rgba(44, 44, 44, 0.05);
   border-radius: 3px;
 }
 
 .todo-items::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
+  background: rgba(44, 44, 44, 0.3);
   border-radius: 3px;
 }
 
 .todo-items::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
+  background: rgba(44, 44, 44, 0.5);
 }
