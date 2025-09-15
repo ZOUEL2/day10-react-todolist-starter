@@ -1,7 +1,9 @@
-import { EditOutlined } from '@ant-design/icons';
-import { Input, Modal } from 'antd';
+import { EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { Input, Modal, Button, Typography, Space, Tooltip, Card } from 'antd';
 import { useContext, useState, useRef, useEffect } from 'react';
 import { TodoContext } from '../contexts/TodoContext';
+
+const { Text } = Typography;
 
 export const TodoItem = ({ todo }) => {
     const { updateTodo, removeTodo } = useContext(TodoContext);
@@ -97,72 +99,115 @@ export const TodoItem = ({ todo }) => {
     
     return (
         <>
-            <div className={`todo-item ${todo.done ? 'done' : ''}`}>
+            <Card 
+                size="small" 
+                className={`todo-item-card ${todo.done ? 'done' : ''}`}
+                style={{
+                    marginBottom: 8,
+                    transition: 'all 0.3s ease',
+                    opacity: todo.done ? 0.7 : 1,
+                    borderLeft: todo.done ? '4px solid #52c41a' : '4px solid #1890ff'
+                }}
+                bodyStyle={{ padding: '12px 16px' }}
+                hoverable={!isEditing}
+            >
                 {isEditing ? (
-                    <div className="edit-inline">
+                    <Space.Compact style={{ width: '100%' }}>
                         <Input
                             value={editText}
                             onChange={(e) => setEditText(e.target.value)}
                             onKeyDown={handleKeyPress}
                             onBlur={handleSaveInline}
                             autoFocus
-                            className="edit-input"
+                            placeholder="请输入任务内容"
+                            style={{ flex: 1 }}
                         />
-                        <div className="edit-buttons">
-                            <button className="save-btn" onClick={handleSaveInline}>
-                                ✓
-                            </button>
-                            <button className="cancel-btn" onClick={handleCancelInline}>
-                                ✕
-                            </button>
-                        </div>
-                    </div>
+                        <Tooltip title="保存">
+                            <Button 
+                                type="primary" 
+                                icon={<CheckOutlined />} 
+                                onClick={handleSaveInline}
+                                size="small"
+                            />
+                        </Tooltip>
+                        <Tooltip title="取消">
+                            <Button 
+                                icon={<CloseOutlined />} 
+                                onClick={handleCancelInline}
+                                size="small"
+                            />
+                        </Tooltip>
+                    </Space.Compact>
                 ) : (
-                    <>
-                        <span 
-                            className="todo-text"
-                            onClick={handleSingleClick}
-                            onDoubleClick={handleDoubleClick}
-                            title="单击切换完成状态，双击编辑"
-                        >
-                            {todo.text}
-                        </span>
-                        <div className="action-buttons">
-                            {!todo.done && (
-                                <button 
-                                    className="edit-btn"
-                                    onClick={handleEdit}
-                                    title="编辑"
-                                >
-                                    <EditOutlined />
-                                </button>
-                            )}
-                            <button 
-                                className="delete-btn"
-                                onClick={handleDelete}
-                                title="删除"
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Tooltip title="单击切换完成状态，双击编辑">
+                            <Text
+                                delete={todo.done}
+                                type={todo.done ? 'secondary' : undefined}
+                                onClick={handleSingleClick}
+                                onDoubleClick={handleDoubleClick}
+                                style={{
+                                    flex: 1,
+                                    cursor: 'pointer',
+                                    fontSize: '14px',
+                                    userSelect: 'none',
+                                    padding: '4px 8px',
+                                    borderRadius: '4px',
+                                    transition: 'background-color 0.2s'
+                                }}
+                                className="todo-text-hover"
                             >
-                                ×
-                            </button>
-                        </div>
-                    </>
+                                {todo.text}
+                            </Text>
+                        </Tooltip>
+                        <Space size="small">
+                            {!todo.done && (
+                                <Tooltip title="编辑任务">
+                                    <Button 
+                                        type="text" 
+                                        icon={<EditOutlined />} 
+                                        size="small"
+                                        onClick={handleEdit}
+                                        style={{ color: '#52c41a' }}
+                                    />
+                                </Tooltip>
+                            )}
+                            <Tooltip title="删除任务">
+                                <Button 
+                                    type="text" 
+                                    icon={<DeleteOutlined />} 
+                                    size="small"
+                                    onClick={handleDelete}
+                                    danger
+                                />
+                            </Tooltip>
+                        </Space>
+                    </div>
                 )}
-            </div>
+            </Card>
 
             <Modal
-                title="编辑任务"
+                title={
+                    <Space>
+                        <EditOutlined />
+                        编辑任务
+                    </Space>
+                }
                 open={modalVisible}
                 onOk={handleSaveModal}
                 onCancel={handleCancelModal}
                 okText="保存"
                 cancelText="取消"
                 destroyOnClose={true}
+                okButtonProps={{ icon: <CheckOutlined /> }}
+                cancelButtonProps={{ icon: <CloseOutlined /> }}
             >
                 <Input
                     value={editText}
                     onChange={(e) => setEditText(e.target.value)}
                     placeholder="请输入任务内容"
                     onPressEnter={handleSaveModal}
+                    size="large"
                 />
             </Modal>
         </>

@@ -1,3 +1,5 @@
+import { PlusOutlined } from '@ant-design/icons';
+import { Input, Button, Card, Space } from 'antd';
 import { useContext, useState } from 'react';
 import { TodoContext } from '../contexts/TodoContext';
 
@@ -19,18 +21,34 @@ export const TodoGenerator = () => {
     };
 
     return (
-        <div className="add-todo">
-            <input
-                type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Enter new todo..."
-                className="todo-input"
-            />
-            <button type="submit" className="add-btn" onClick={handleSubmit}>
-                Add
-            </button>
-        </div>
+        <Card 
+            size="small" 
+            style={{ 
+                marginBottom: 16,
+                background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+                border: '1px solid #d9d9d9'
+            }}
+        >
+            <Space.Compact style={{ width: '100%' }}>
+                <Input
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    placeholder="Enter new task..."
+                    size="large"
+                    style={{ flex: 1 }}
+                    allowClear
+                />
+                <Button 
+                    type="primary" 
+                    icon={<PlusOutlined />} 
+                    onClick={handleSubmit}
+                    size="large"
+                    disabled={!inputValue.trim()}
+                >
+                    ADD
+                </Button>
+            </Space.Compact>
+        </Card>
     );
 };

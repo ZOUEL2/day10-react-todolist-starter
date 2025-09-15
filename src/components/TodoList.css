@@ -1,225 +1,40 @@
-.todo-list {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
+.todo-container {
+  padding: 24px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-.todo-title {
-  text-align: center;
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-.todo-items {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-.empty-message {
-  text-align: center;
-  color: #6c757d;
-  font-style: italic;
-  margin-bottom: 20px;
-  font-size: 16px;
-}
-
-.add-todo {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-  padding: 15px;
-  background-color: #f5f5f5;
-  border-radius: 8px;
-}
-
-.add-todo input {
-  flex: 1;
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 24px;
-}
-
-.add-todo input:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
-}
-
-.add-todo button {
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.add-todo button:hover {
-  background-color: #0056b3;
-}
-
-.add-todo button:active {
-  background-color: #004085;
-}
-
-.todo-item {
-  padding: 12px 15px;
-  margin-bottom: 8px;
-  background-color: white;
-  border: 1px solid #e9ecef;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-  user-select: none;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-}
-
-.todo-item:hover {
-  background-color: #f8f9fa;
-  border-color: #dee2e6;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.todo-item.done {
-  color: #6c757d;
-  background-color: #f8f9fa;
+.todo-item-card.done {
   opacity: 0.7;
 }
 
-.todo-item.done .todo-text {
-  text-decoration: line-through;
-  cursor: default;
+.todo-text-hover:hover {
+  background-color: rgba(24, 144, 255, 0.1) !important;
 }
 
-.todo-item.done .todo-text:hover {
-  background-color: transparent;
-  padding: 0;
-  margin: 0;
+.ant-card {
+  border-radius: 12px !important;
 }
 
-.todo-item.done:hover {
-  background-color: #e9ecef;
+.ant-card-small > .ant-card-body {
+  padding: 12px 16px;
 }
 
-.todo-text {
-  flex: 1;
-  cursor: pointer;
-  margin-right: 15px;
-  user-select: text;
+/* 自定义滚动条样式 */
+.todo-items::-webkit-scrollbar {
+  width: 6px;
 }
 
-.todo-text:hover {
-  background-color: rgba(0, 123, 255, 0.1);
+.todo-items::-webkit-scrollbar-track {
+  background: #f1f1f1;
   border-radius: 3px;
-  padding: 2px 4px;
-  margin: -2px -4px;
 }
 
-.action-buttons {
-  display: flex;
-  gap: 5px;
-  align-items: center;
+.todo-items::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
 }
 
-.edit-btn {
-  width: 24px;
-  height: 24px;
-  background-color: #28a745;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 12px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s;
-  flex-shrink: 0;
-}
-
-.edit-btn:hover {
-  background-color: #218838;
-}
-
-.edit-inline {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-}
-
-.edit-input {
-  flex: 1;
-}
-
-.edit-buttons {
-  display: flex;
-  gap: 5px;
-}
-
-.save-btn, .cancel-btn {
-  width: 24px;
-  height: 24px;
-  border: none;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s;
-}
-
-.save-btn {
-  background-color: #28a745;
-  color: white;
-}
-
-.save-btn:hover {
-  background-color: #218838;
-}
-
-.cancel-btn {
-  background-color: #6c757d;
-  color: white;
-}
-
-.cancel-btn:hover {
-  background-color: #5a6268;
-}
-
-.delete-btn {
-  width: 24px;
-  height: 24px;
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s;
-  flex-shrink: 0;
-}
-
-.delete-btn:hover {
-  background-color: #c82333;
-}
-
-.delete-btn:active {
-  background-color: #bd2130;
+.todo-items::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
 }
