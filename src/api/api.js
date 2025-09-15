@@ -1,8 +1,17 @@
+import axios from 'axios';
+
 const instance = axios.create({
   baseURL: 'https://68c78c945d8d9f514732230d.mockapi.io/api/',
   timeout: 1000,
 });
 
-export const getTodo = async () => {
-    return instance.get('/todos');
+export const getTodos = async () => {
+    const response = await instance.get('/todos');
+    return response;
 }
+
+export const addTodo = async (todo) => {
+    const response = await instance.post('/todos', todo);
+    return response;
+}
+

@@ -1,10 +1,29 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TodoContext } from "../contexts/TodoContext";
 import "./TodoList.css";
+import { getTodos, addTodo } from "../api/api";
 
 const TodoList = () => {
   const { state, dispatch } = useContext(TodoContext);
   const [newTodoText, setNewTodoText] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadTodos = async () => {
+      try {
+        setLoading(true);
+        const response = await getTodos();
+        console.log('Todos loaded from server:', response.data);
+        dispatch({ type: "LOAD_TODOS", todos: response.data });
+      } catch (error) {
+        console.error('Error loading todos:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadTodos();
+  }, [dispatch]);
 
   function toggleDone(id) {
     dispatch({ type: "DONE", id: id });
@@ -14,25 +33,42 @@ const TodoList = () => {
     dispatch({ type: "DELETE", id: id });
   }
 
-  function addTodo() {
+  function handleAddTodo() {
     if (newTodoText.trim()) {
       const newId = Math.max(...state.map(todo => todo.id), 0) + 1;
-      dispatch({ 
-        type: "ADD", 
-        id: newId, 
-        text: newTodoText.trim() 
+      const newTodo = {
+        id: newId,
+        text: newTodoText.trim(),
+        done: false
+      };
+      
+      addTodo(newTodo).then(response => {
+        console.log('Todo added to server:', response.data);
+        dispatch({ 
+          type: "ADD", 
+          id: newId, 
+          text: newTodoText.trim() 
+        });
+      }).catch(error => {
+        console.error('Error adding todo:', error);
+        dispatch({ 
+          type: "ADD", 
+          id: newId, 
+          text: newTodoText.trim() 
+        });
       });
+      
       setNewTodoText("");
     }
   }
 
   function handleKeyPress(e) {
     if (e.key === 'Enter') {
-      addTodo();
+      handleAddTodo();
     }
   }
 
-  if (!state) {
+  if (!state || loading) {
     return <div className="todo-group">Loading...</div>;
   }
 
@@ -54,7 +90,7 @@ const TodoList = () => {
           onKeyPress={handleKeyPress}
           placeholder="Enter new todo..."
         />
-        <button onClick={addTodo}>Add</button>
+        <button onClick={handleAddTodo}>Add</button>
       </div>
       
       {state.map(({ id, text, done }) => {
