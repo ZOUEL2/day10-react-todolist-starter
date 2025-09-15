@@ -32,14 +32,28 @@ function DefaultLayer() {
   );
 }
 
+function ErrorPage() {
+  return (
+    <div>
+      <h1>Oops!</h1>
+      <p>Sorry, an unexpected error has occurred.</p>
+    </div>
+  );
+}
+
 const routes = [
   {
     path: "/",
     element: <DefaultLayer />,
+    errorElement: <ErrorPage/>,
     children: [
       {
         path: "",
         element: <h1>Home Page </h1>,
+      },
+      {
+        path: "todolist",
+        element: <TodoList />,
       },
       {
         path: "about",
