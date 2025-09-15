@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { TodoContext } from "../contexts/TodoContext";
 import "./TodoList.css";
-import { getTodos, addTodo } from "../api/api";
+import { getTodos, addTodo, deleteTodo, updateTodo} from "../apis/todoApi";
 
 const TodoList = () => {
   const { state, dispatch } = useContext(TodoContext);
@@ -13,10 +13,10 @@ const TodoList = () => {
       try {
         setLoading(true);
         const response = await getTodos();
-        console.log('Todos loaded from server:', response.data);
+        console.log("Todos loaded from server:", response.data);
         dispatch({ type: "LOAD_TODOS", todos: response.data });
       } catch (error) {
-        console.error('Error loading todos:', error);
+        console.error("Error loading todos:", error);
       } finally {
         setLoading(false);
       }
@@ -26,44 +26,62 @@ const TodoList = () => {
   }, [dispatch]);
 
   function toggleDone(id) {
-    dispatch({ type: "DONE", id: id });
+    updateTodo(id, { done: !state.find(todo => todo.id === id).done })
+      .then((response) => {
+        console.log("Todo updated on server:", response.data);
+        dispatch({ type: "DONE", id: id });
+      })
+      .catch((error) => {
+        console.error("Error updating todo:", error);
+        dispatch({ type: "DONE", id: id });
+      });
   }
 
-  function deleteTodo(id) {
-    dispatch({ type: "DELETE", id: id });
+  function handleDeleteTodo(id) {
+    deleteTodo(id)
+      .then((response) => {
+        console.log("Todo deleted from server:", response.data);
+        dispatch({ type: "DELETE", id: id });
+      })
+      .catch((error) => {
+        console.error("Error deleting todo:", error);
+        dispatch({ type: "DELETE", id: id });
+      });
   }
 
   function handleAddTodo() {
     if (newTodoText.trim()) {
-      const newId = Math.max(...state.map(todo => todo.id), 0) + 1;
+      const newId = Math.max(...state.map((todo) => todo.id), 0) + 1;
       const newTodo = {
         id: newId,
         text: newTodoText.trim(),
-        done: false
+        done: false,
       };
-      
-      addTodo(newTodo).then(response => {
-        console.log('Todo added to server:', response.data);
-        dispatch({ 
-          type: "ADD", 
-          id: newId, 
-          text: newTodoText.trim() 
+
+      addTodo(newTodo)
+        .then((response) => {
+          console.log("Todo added to server:", response.data);
+          dispatch({
+            type: "ADD",
+            id: newId,
+            text: newTodoText.trim(),
+          });
+        })
+        .catch((error) => {
+          console.error("Error adding todo:", error);
+          dispatch({
+            type: "ADD",
+            id: newId,
+            text: newTodoText.trim(),
+          });
         });
-      }).catch(error => {
-        console.error('Error adding todo:', error);
-        dispatch({ 
-          type: "ADD", 
-          id: newId, 
-          text: newTodoText.trim() 
-        });
-      });
-      
+
       setNewTodoText("");
     }
   }
 
   function handleKeyPress(e) {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleAddTodo();
     }
   }
@@ -74,13 +92,13 @@ const TodoList = () => {
 
   return (
     <div className={"todo-group"}>
-      <h1>Todo  List</h1>
-      
+      <h1>Todo List</h1>
+
       {/* Show message when no todos */}
       {state.length === 0 && (
         <p className="empty-message">Add the thing you need to do today...</p>
       )}
-      
+
       {/* Add new todo input */}
       <div className="add-todo">
         <input
@@ -92,21 +110,18 @@ const TodoList = () => {
         />
         <button onClick={handleAddTodo}>Add</button>
       </div>
-      
+
       {state.map(({ id, text, done }) => {
         return (
-          <div
-            key={id}
-            className={`todo-item ${done ? "done" : ""}`}
-          >
+          <div key={id} className={`todo-item ${done ? "done" : ""}`}>
             <span onClick={() => toggleDone(id)} className="todo-text">
               {text}
             </span>
-            <button 
+            <button
               className="delete-btn"
               onClick={(e) => {
                 e.stopPropagation();
-                deleteTodo(id);
+                handleDeleteTodo(id);
               }}
             >
               ×

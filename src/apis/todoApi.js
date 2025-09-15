@@ -15,3 +15,12 @@ export const addTodo = async (todo) => {
     return response;
 }
 
+export const deleteTodo = async (id) => {
+    const response = await instance.delete(`/todos/${id}`);
+    return response;
+}
+
+export const updateTodo = async (id, updatedFields) => {
+    const response = await instance.put(`/todos/${id}`, updatedFields);
+    return response;
+}
