@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { message } from 'antd';
-import { getTodos, addTodo, deleteTodo, updateTodo } from '../apis/todoApi';
+import { getTodos, addTodo, deleteTodo, updateTodo, patchTodo } from '../apis/todoApi';
 
 export const useTodoService = () => {
     const [todos, setTodos] = useState([]);
@@ -31,12 +31,16 @@ export const useTodoService = () => {
         };
         
         try {
-            // 乐观更新
             setTodos(prevTodos => [...prevTodos, newTodo]);
             
-            await addTodo(newTodo);
-            console.log('Todo added to server successfully');
+            const response = await addTodo(newTodo);
+            console.log('Todo added to server successfully', response);
             message.success('任务添加成功！');
+
+            if (response && response.data && response.data.id && response.data.id !== newId) {
+                const serverId = response.data.id;
+                setTodos(prevTodos => prevTodos.map(t => t.id === newId ? { ...t, id: serverId } : t));
+            }
         } catch (err) {
             console.error('添加todo失败:', err);
             message.error('添加任务失败，请重试');
@@ -46,6 +50,7 @@ export const useTodoService = () => {
 
     const removeTodo = async (id) => {
         const todoToDelete = todos.find(todo => todo.id === id);
+        const index = todos.findIndex(todo => todo.id === id);
         
         try {
             setTodos(prevTodos => prevTodos.filter(todo => todo.id !== id));
@@ -56,36 +61,43 @@ export const useTodoService = () => {
         } catch (err) {
             console.error('删除todo失败:', err);
             message.error('删除任务失败，请重试');
-            if (todoToDelete) {
-                setTodos(prevTodos => [...prevTodos, todoToDelete]);
+            if (todoToDelete && index >= 0) {
+                setTodos(prevTodos => {
+                    const copy = [...prevTodos];
+                    copy.splice(index, 0, todoToDelete);
+                    return copy;
+                });
             }
         }
     };
 
     const updateTodoItem = async (id, todoData) => {
         const originalTodo = todos.find(todo => todo.id === id);
-        
+
         try {
             setTodos(prevTodos => 
                 prevTodos.map(todo => 
                     todo.id === id ? { ...todo, ...todoData } : todo
                 )
             );
-            
-            await updateTodo(id, todoData);
+
+            // 后端只支持 PATCH 修改 done 字段
+            if (Object.keys(todoData).length === 1 && todoData.hasOwnProperty('done')) {
+                await patchTodo(id, { done: todoData.done });
+            } else {
+                const updatedTodo = { ...originalTodo, ...todoData };
+                await updateTodo(id, updatedTodo);
+            }
+
             console.log('Todo updated on server successfully');
-            
+
             if (todoData.hasOwnProperty('done') && todoData.hasOwnProperty('text')) {
-                // 同时更新了完成状态和文本内容
                 message.success('任务更新成功！');
             } else if (todoData.hasOwnProperty('done')) {
-                // 只更新了完成状态
                 message.success(todoData.done ? '任务标记为已完成！' : '任务标记为未完成！');
             } else if (todoData.hasOwnProperty('text')) {
-                // 只更新了文本内容
                 message.success('任务内容更新成功！');
             } else {
-                // 其他更新
                 message.success('任务更新成功！');
             }
         } catch (err) {
@@ -111,6 +123,7 @@ export const useTodoService = () => {
         addTodo: addTodoItem,
         removeTodo,
         updateTodo: updateTodoItem,
+        patchTodo,
         loadTodos
     };
 };

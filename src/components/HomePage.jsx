@@ -18,7 +18,6 @@ export const HomePage = () => {
             <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
                 <Col xs={24} sm={20} md={16} lg={12} xl={10}>
                     <div className="content-center">
-                        {/* 毛笔字诗句 - 错开排版 */}
                         <div className="poetry-container">
                             <div className="poetry-line first-line">
                                 <Title 
